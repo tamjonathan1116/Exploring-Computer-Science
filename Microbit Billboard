@@ -1,0 +1,19 @@
+from microbit import*
+choice = 0
+my_list = ["Ahoy", Image.HAPPY, Image.SAD, Image.HEART, Image.ASLEEP, Image.SURPRISED ]
+FIRST CHOICE = 0
+LAST_CHOICE - len(my_list) - 1
+while True:
+  my_image=my_list[choice]
+  if type (my_image) == str:
+    display.scroll(my_image)
+  else:
+    display.show(my_image)
+  if button_b.was_pressed():
+    choice = choice +1
+    if choice > LAST_CHOICE:
+      choice = FIRSTCHOICE
+  if button_a.was_pressed():
+    choice = choice - 1
+    if choice < FIRST_CHOICE:
+      choice - LAST CHOICE
