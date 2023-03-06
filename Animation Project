@@ -1,0 +1,114 @@
+import simplegui
+import random
+
+x=50
+mouth = "smile"
+tear=200
+sunanim="active"
+tearrad=200
+
+def draw_handler(canvas):
+    global x
+    global mouth
+    global tear
+    global sunanim
+    global tearrad
+    if sunanim == "active":
+        x+=5
+        for i in range(3):
+            starx=random.randint(1,600)
+            stary=random.randint(1,600)
+            canvas.draw_polygon(((starx+3,stary),(starx,stary+5),(starx-3,stary),(starx,stary-5)),1,"white","white")
+        #sun
+        canvas.draw_circle((350,250),200,5,"gold","Yellow")
+        canvas.draw_line((340,480),(350,600),5,"gold")
+        canvas.draw_line((270,460),(220,600),5,"yellow")
+        canvas.draw_line((220,420),(50,600),5,"gold")
+        canvas.draw_line((165,360),(600-600,450),5,"yellow")
+        canvas.draw_line((150,300),(600-600,310),5,"gold")
+        #eyes
+        canvas.draw_polygon(((350+75,250-50),(350+80,250-90),(350+80,250-50),(350+75,250-90)),5,"black")
+        canvas.draw_polygon(((350-75,250-50),(350-80,250-90),(350-80,250-50),(350-75,250-90)),5,"black")
+        if mouth == "smile":
+            canvas.draw_circle((350,300),50,5,"black",)
+            canvas.draw_polygon(((250,300),(450,300),(450,240),(250,240)),5,"yellow","yellow")
+        if mouth == "frown":
+            canvas.draw_circle((350,350),50,5,"black")
+            canvas.draw_polygon(((450,350),(250,350),(250,400),(450,400)),5,"yellow","yellow")
+        if x > 800:
+            mouth="smile"
+        elif x == 350:
+            mouth = "frown"
+        #tear
+        if mouth == "frown":
+            tear+=6
+            canvas.draw_circle((428,tear),8,2,"blue","lightblue")
+            canvas.draw_circle((270,tear),8,2,"blue","lightblue")
+        elif mouth == "smile":
+            tear =200
+        #rain
+        for i in range(200):
+            xdot=random.randint(x-100,x+150)
+            ydot=random.randint(350,600)
+            canvas.draw_line((xdot,ydot),(xdot,ydot+10),5, "lightblue")
+        #clouds
+        canvas.draw_circle((x,300),65,5,"silver","silver")
+        canvas.draw_circle((x+100,370),70,5,"silver","silver")
+        canvas.draw_circle((x+25,250),65,5,"silver","silver")
+        canvas.draw_circle((x,350),50,5,"silver","silver")
+        canvas.draw_circle((x+80,320),50,5,"silver","silver")
+        canvas.draw_circle((x-20,300),60,5,"silver","silver")
+        canvas.draw_circle((x-70,350),70,5,"silver","silver")
+        canvas.draw_circle((x+40,390),50,5,"silver","silver")
+        #clouds (white part)
+        canvas.draw_circle((x,300),53,5,"white","white")
+        canvas.draw_circle((x+100,370),63,5,"white","white")
+        canvas.draw_circle((x+25,250),58,5,"white","white")
+        canvas.draw_circle((x,350),43,5,"white","white")
+        canvas.draw_circle((x+80,320),43,5,"white","white")
+        canvas.draw_circle((x-20,300),53,5,"white","white")
+        canvas.draw_circle((x-70,350),63,5,"white","white")
+        canvas.draw_circle((x+40,390),43,5,"white","white")
+        
+        if x > 800:
+            x=-200
+            sunanim="unactive"
+            tear=-350
+            
+    elif sunanim=="unactive":
+        #grass
+        canvas.draw_polygon(((0,450),(0,600),(600,600),(600,450)),5,"darkgreen","green")
+        #stickman
+        canvas.draw_circle((300,300),30,3,"black","white")
+        canvas.draw_line((300,330),(300,380),3,"black")
+        canvas.draw_line((275,450),(300,380),3,"black")
+        canvas.draw_line((325,450),(300,380),3,"black")
+        canvas.draw_line((300,355),(275,380),3,"black")
+        canvas.draw_line((300,355),(325,380),3,"black")
+        canvas.draw_line((295,300),(285,305),3,"black")
+        canvas.draw_line((305,300),(315,305),3,"black")
+        canvas.draw_line((304,315),(296,315),3,"black")
+        
+        #rain
+        for i in range(120):
+            xdot=random.randint(1,600)
+            ydot=random.randint(1,445)
+            canvas.draw_line((xdot,ydot),(xdot,ydot+10),5, "lightblue")
+        
+        #tear
+        canvas.draw_circle((300,tear),200,5,"blue","lightblue")
+        if tear<=300:
+            tear+=40
+        #explosion
+        elif tear >= 300:
+            tearrad+=30
+            canvas.draw_circle((300,450),tearrad,5,"blue","lightblue")
+        if tearrad > 1200:
+            sunanim="active"
+            tearrad=300
+
+
+frame = simplegui.create_frame('Rainy Day', 600, 600)
+frame.set_canvas_background("darkblue")
+frame.set_draw_handler(draw_handler)
+frame.start()
